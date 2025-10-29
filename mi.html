@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Romero - Desarrollador Full Stack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --gray: #64748b;
+            --gray-light: #cbd5e1;
+            --light: #f1f5f9;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Fondo tech responsivo */
+        .tech-bg {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.85;
+            mix-blend-mode: screen;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Asegurar que el contenido esté por encima del fondo */
+        nav, .container, section, footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Ocultar animaciones pesadas en pantallas pequeñas */
+        @media (max-width: 640px) {
+            .tech-bg { display: none; }
+        }
+
+        /* SVG / partículas y líneas */
+        .tech-bg svg { width: 100%; height: 100%; display: block; }
+        .tech-bg .dot { fill: rgba(99,102,241,0.12); transition: transform 0.6s ease; animation: float 8s ease-in-out infinite; }
+        .tech-bg .dot:nth-child(2) { animation-duration: 10s; }
+        .tech-bg .dot:nth-child(3) { animation-duration: 12s; }
+        .tech-bg .tech-line { stroke: rgba(99,102,241,0.06); stroke-width: 1; stroke-linecap: round; stroke-dasharray: 4 4; animation: dash 6s linear infinite; }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) scale(1); }
+            50% { transform: translateY(-30px) translateX(20px) scale(1.03); }
+            100% { transform: translateY(0) translateX(0) scale(1); }
+        }
+
+        @keyframes dash {
+            to { stroke-dashoffset: 1000; }
+        }
+
+        /* Navegación Mejorada */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+        }
+
+        nav a:hover:after {
+            width: 100%;
+        }
+
+        /* Hero Section Mejorada */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+            color: white;
+            padding: 8rem 2rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            animation: fadeInUp 0.8s ease;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hero .subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 2px solid transparent;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 5rem 2rem;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--dark);
+            font-weight: 800;
+            position: relative;
+            width: 100%;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 2rem auto 4rem;
+        }
+
+        /* Sobre Mí Mejorado */
+        .about {
+            background: linear-gradient(180deg, var(--white) 0%, var(--light) 100%);
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .about-text p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+        }
+
+        .skill-card:hover:before {
+            transform: scaleX(1);
+        }
+
+        .skill-card h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .skill-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            transition: transform 0.4s;
+        }
+
+        .skill-card:hover .skill-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .skill-card p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* Herramientas Mejorado */
+        .tools {
+            background: var(--dark);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tools:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+        }
+
+        .tools h2 {
+            color: white;
+        }
+
+        .tools .section-subtitle {
+            color: var(--gray-light);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .tool-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .tool-item:hover:before {
+            opacity: 0.1;
+        }
+
+        .tool-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .tool-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            transition: transform 0.4s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-item:hover .tool-icon {
+            transform: scale(1.2);
+        }
+
+        .tool-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tool-item small {
+            display: block;
+            margin-top: 0.5rem;
+            color: var(--warning);
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Proyectos Mejorado */
+        .projects {
+            background: linear-gradient(180deg, var(--light) 0%, var(--white) 100%);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.15);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-img:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-content h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .project-content p {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-tag {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .tech-tag:hover {
+            transform: scale(1.05);
+        }
+
+        /* Contacto Mejorado */
+        .contact {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
+
+        .contact-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact h2 {
+            color: white;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .contact-item-icon {
+            font-size: 2rem;
+        }
+
+        .contact-item-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .social-link {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            color: white;
+        }
+
+        .social-link:hover {
+            background: white;
+            color: var(--primary);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .cv-download {
+            margin-top: 3rem;
+        }
+
+        .cv-note {
+            margin-top: 1rem;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        /* Footer Mejorado */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        footer p:first-child {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.3rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .about-text {
+                padding: 2rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación -->
+    <nav>
+        <div class="container">
+            <div class="logo">DR</div>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#sobre-mi">Sobre Mí</a></li>
+                <li><a href="#herramientas">Herramientas</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Daniel Felipe Romero Soler</h1>
+            <p class="subtitle">Desarrollador Full Stack | Frontend Developer</p>
+            <p>Apasionado por crear experiencias web excepcionales y soluciones tecnológicas innovadoras que generan impacto real</p>
+            <div class="hero-buttons">
+                <a href="#contacto" class="btn">Contáctame</a>
+                <a href="https://github.com/DanCoVog" target="_blank" class="btn btn-secondary">Ver GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Mí -->
+    <section id="sobre-mi" class="about">
+        <div class="container">
+            <h2>¿Quién Soy Yo?</h2>
+            <p class="section-subtitle">Conoce más sobre mi trayectoria y lo que me apasiona</p>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        Soy un <strong>desarrollador Full Stack</strong> con una fuerte orientación hacia el desarrollo Frontend, 
+                        especializado en crear interfaces de usuario atractivas y funcionales. Actualmente trabajo 
+                        con una empresa desarrolladora de software y gestiono una tienda de e-commerce, lo que me 
+                        ha permitido combinar mis habilidades técnicas con la visión de negocio.
+                    </p>
+                    <p>
+                        Mi enfoque está en desarrollar <strong>soluciones web modernas, escalables y centradas en la 
+                        experiencia del usuario</strong>. Me apasiona aprender nuevas tecnologías y enfrentar desafíos 
+                        que me permitan crecer profesionalmente mientras genero valor para los proyectos en los que participo.
+                    </p>
+                </div>
+
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-handshake"></i></div>
+                        <h3>Trabajo en Equipo</h3>
+                        <p>Capacidad para colaborar efectivamente con equipos multidisciplinarios, compartiendo conocimientos y apoyando el logro de objetivos comunes.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-comments"></i></div>
+                        <h3>Comunicación Efectiva</h3>
+                        <p>Habilidad para dialogar y desenvolverme en temas que me apasionan, explicando conceptos técnicos de manera clara y comprensible.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-bolt"></i></div>
+                        <h3>Liderazgo & Responsabilidad</h3>
+                        <p>Me gusta liderar proyectos, tomar iniciativa y ayudar a los demás, siempre cumpliendo con los compromisos adquiridos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Herramientas -->
+    <section id="herramientas" class="tools">
+        <div class="container">
+            <h2>Herramientas que Uso</h2>
+            <p class="section-subtitle">Tecnologías con las que desarrollo mis proyectos</p>
+            <div class="tools-grid">
+                <div class="tool-item">
+                    <div class="tool-icon"><i class="fab fa-html5"></i></div>
+                    <div class="tool-name">HTML5</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-icon"><i class="fab fa-css3-alt"></i></div>
+                    <div class="tool-name">CSS3</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-icon"><i class="fab fa-js"></i></div>
+                    <div class="tool-name">JavaScript</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-icon"><i class="fab fa-python"></i></div>
+                    <div class="tool-name">Python</div>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-icon"><i class="fab fa-react"></i></div>
+                    <div class="tool-name">Next.js</div>
+                    <small>En aprendizaje</small>
+                </div>
+                <div class="tool-item">
+                    <div class="tool-icon"><i class="fas fa-database"></i></div>
+                    <div class="tool-name">SQL</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proyectos -->
+    <section id="proyectos" class="projects">
+        <div class="container">
+            <h2>Proyectos en los que he Participado</h2>
+            <p class="section-subtitle">Una muestra de mi trabajo y experiencia práctica</p>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="project-content">
+                        <h3>Tienda E-commerce</h3>
+                        <p>Desarrollo y gestión de una tienda en línea completa, desde el diseño de la interfaz hasta la implementación de funcionalidades de carrito de compras, gestión de inventario y sistema de pagos.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">SQL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-img"><i class="fas fa-briefcase"></i></div>
+                    <div class="project-content">
+                        <h3>Sistema de Gestión Empresarial</h3>
+                        <p>Colaboración en el desarrollo de software empresarial, enfocándome en la creación de interfaces intuitivas y la implementación de funcionalidades frontend que mejoran la productividad.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">SQL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-img"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="project-content">
+                        <h3>Proyectos Académicos</h3>
+                        <p>Desarrollo de diversos proyectos universitarios aplicando metodologías ágiles, trabajo en equipo y las últimas tecnologías web aprendidas durante mi formación en UNIMINUTO.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Python</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto/CV -->
+    <section id="contacto" class="contact">
+        <div class="container contact-content">
+            <h2>¡Hablemos!</h2>
+            <p style="font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.95;">Estoy disponible para nuevos proyectos y oportunidades</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-item-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="contact-item-text">danielfeliperomerosoler022@gmail.com</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="contact-item-text">+57 302 417 5420</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="contact-item-text">Villavicencio, Meta, Colombia</div>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://github.com/DanCoVog" 
+                target="_blank" 
+                class="social-link" 
+                title="GitHub"><i class="fab fa-github"></i></a>
+
+                <a href="mailto:danielfeliperomerosoler022@gmail.com?subject=Contacto%20desde%20tu%20Portafolio&body=Hola%20Daniel,%20vi%20tu%20portafolio%20y%20quiero%20contactarte..."
+                onclick="if(window.navigator.userAgent.includes('Chrome') || window.navigator.userAgent.includes('Firefox')) { window.open('https://mail.google.com/mail/?view=cm&fs=1&to=danielfeliperomerosoler022@gmail.com&su=Contacto%20desde%20tu%20Portafolio&body=Hola%20Daniel,%20vi%20tu%20portafolio%20y%20quiero%20contactarte...', '_blank'); return false; }"
+                class="social-link" 
+                title="Enviar correo"><i class="fas fa-envelope"></i></a>
+            </div>
+            <div class="cv-download">
+                <a href="https://drive.google.com/drive/u/1/home" target="_blank"                 class="btn"><i class="fas fa-file-alt"></i> Descargar CV Completo</a>
+                <p class="cv-note">Haz click para ver o descargar mi hoja de vida</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Daniel Felipe Romero Soler. Todos los derechos reservados.</p>
+        <p style="margin-top: 0.5rem;">Hecho con <i class="fas fa-heart"></i> y mucho código</p>
+    </footer>
+</body>
+</html>
