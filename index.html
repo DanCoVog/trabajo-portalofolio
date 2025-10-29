@@ -1200,7 +1200,7 @@
                 class="social-link" 
                 title="Enviar correo"><i class="fas fa-envelope"></i></a>
             </div>
-            <div class="HJ-download">
+            <div class="cd-download">
                 <a href="https://drive.google.com/file/d/1acmi8D8r3Zep4vgvxfAJcGYfDp6WAH0q/view?usp=drive_link" target="_blank" class="btn"><i class="fas fa-file-alt"></i> Descargar CV Completo</a>
                 <p class="cv-note">Haz click para ver o descargar mi hoja de vida</p>
             </div>
@@ -1212,5 +1212,62 @@
         <p>&copy; 2025 Daniel Felipe Romero Soler. Todos los derechos reservados.</p>
         <p style="margin-top: 0.5rem;">Hecho con <i class="fas fa-heart"></i> y mucho código</p>
     </footer>
+
+<script>
+    // === CAMBIO DE TEMA (CLARO / OSCURO) ===
+    const themeBtn = document.getElementById('themeBtn');
+    const body = document.body;
+
+    // Cargar tema guardado
+    if (localStorage.getItem('theme') === 'dark') {
+        body.classList.add('dark-mode');
+        themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+
+    // Alternar tema
+    themeBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        const isDark = body.classList.contains('dark-mode');
+        themeBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // === CAMBIO DE IDIOMA (ES / EN) ===
+    const langBtn = document.getElementById('langBtn');
+    let currentLang = localStorage.getItem('lang') || 'es';
+
+    function setLanguage(lang) {
+        document.querySelectorAll('[data-es]').forEach(el => {
+            el.textContent = el.getAttribute(`data-${lang}`);
+        });
+
+        const heroTitle = document.querySelector('.hero h1');
+        const heroSubtitle = document.querySelector('.hero .subtitle');
+        const heroParagraph = document.querySelector('.hero p');
+
+        if (lang === 'en') {
+            heroTitle.textContent = 'Daniel Felipe Romero Soler';
+            heroSubtitle.textContent = 'Full Stack Developer | Frontend Developer';
+            heroParagraph.textContent = 'Passionate about creating exceptional web experiences and innovative technology solutions that make a real impact.';
+        } else {
+            heroTitle.textContent = 'Daniel Felipe Romero Soler';
+            heroSubtitle.textContent = 'Desarrollador Full Stack | Frontend Developer';
+            heroParagraph.textContent = 'Apasionado por crear experiencias web excepcionales y soluciones tecnológicas innovadoras que generan impacto real.';
+        }
+
+        localStorage.setItem('lang', lang);
+        currentLang = lang;
+    }
+
+    // Establecer idioma inicial
+    setLanguage(currentLang);
+
+    // Alternar idioma
+    langBtn.addEventListener('click', () => {
+        setLanguage(currentLang === 'es' ? 'en' : 'es');
+    });
+</script>
+
+
 </body>
 </html>
